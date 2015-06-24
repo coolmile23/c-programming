@@ -8,6 +8,7 @@
 #define NOT_BLANK 1
 #define BLANK 0
 #define ITEM 10
+#define WORD_LENGTH 10
 
 int main(int argc, char **argv)
 {
@@ -19,9 +20,16 @@ int main(int argc, char **argv)
 	int blank_flag = NOT_BLANK;
 	char c;
 	char word_length = 0;
+	int word_length_counter[WORD_LENGTH];
+
+	int i;
+	for (i = 0; i < WORD_LENGTH; i++) {
+		word_length_counter[i] = 0;
+	}
 
 	while ((c = getchar()) != EOF) {
 		cc ++;
+		word_length++;
 
 		if (c == ' ') {
 			if (blank_flag == NOT_BLANK) {
@@ -43,15 +51,21 @@ int main(int argc, char **argv)
 				lc++;
 			}
 			flag = OUT_WORD;
+			word_length_counter[word_length]++;
+			word_length = 0;
 		} else if (flag == OUT_WORD) {
 			flag = IN_WORD;
-			word_length++;
 			wc++;
 		}
 	}
 
 	printf("%.0lf %.0lf %.0lf\n", lc, wc, cc);
 	printf("word length: %d\n", word_length);
+
+	printf("word length counter:\n");
+	for (i = 0; i < WORD_LENGTH; i++) {
+		printf("word length %d: %d\n", i, word_length_counter[i]);	
+	}
 
 	return 0;
 }
